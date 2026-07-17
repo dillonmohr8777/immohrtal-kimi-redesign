@@ -1,0 +1,69 @@
+# Hosting
+
+The site can now be SERVED from anywhere (Vercel, Netlify, a custom
+domain): email capture posts to the Netlify form backend by absolute
+URL from any host (`src/lib/list.ts`).
+
+⚠ **RULE: never delete the Netlify site** (immohrtal-site.netlify.app).
+Even if Vercel serves the primary site, Netlify remains the form
+backend, the contact store, and the Gmail notification source.
+
+## Deploy on Vercel (one time)
+
+1. vercel.com → **Add New → Project** → import `dillonmohr8777/dillon-os`.
+2. **Root Directory**: `immohrtal-site`. Framework preset: **Vite**
+   (build `npm run build`, output `dist`, auto-detected).
+3. Deploy. Every merge to `main` then redeploys automatically.
+4. Leave the Netlify site running (see rule above). Canonical URLs stay
+   on immohrtal-site.netlify.app until the custom domain lands, so the
+   two copies don't compete in search.
+
+## Fastest path (no git wiring): Netlify Drop
+
+1. `npm run build` (or grab the dist zip Claude sends you).
+2. Go to **app.netlify.com/drop** and drag the `dist/` folder in.
+3. Live in ~30 seconds. Forms are auto-detected from the built HTML.
+
+## Proper path (auto-deploys on merge)
+
+1. Merge PR #158 into `main`.
+2. Netlify → **Add new site → Import an existing project** →
+   `dillonmohr8777/dillon-os`.
+3. Base directory `immohrtal-site`, build `npm run build`, publish
+   `immohrtal-site/dist`.
+4. Deploy. Every future merge to `main` redeploys automatically.
+
+## Custom domain (whenever you buy one)
+
+Project → Settings → Domains → add `immohrtal.com` (or whatever you
+pick) and follow the DNS instructions. Then update the `og:image` and
+JSON-LD `image` in `index.html` to the absolute URL
+(`https://yourdomain.com/og.png`) so link previews are bulletproof.
+
+## Alternative host
+
+The `dist/` folder after `npm run build` is fully static. Drag-and-drop
+it into Netlify Drop, Cloudflare Pages, or any static host and it just
+works.
+
+## Newsletter gate (Netlify Forms)
+
+Track previews are email-gated: first play opens a signup modal that
+POSTs to the hidden `immohrtal-list` form in `index.html`. Netlify
+detects that form at deploy time — no config needed, but check:
+
+1. Netlify dashboard → **Forms** → enable form detection (one-time).
+2. Submissions appear under Forms → `immohrtal-list`, with the track
+   that triggered the signup in the `source` field. **Export CSV** from
+   that screen any time — that's the master contact list.
+3. Forms → Form notifications → **Add notification → Email** →
+   `dillonmohr8777@gmail.com`. Every signup then lands in that inbox
+   in real time (email + which track hooked them).
+4. To email the list from Gmail: export the CSV, paste addresses into
+   **BCC** from dillonmohr8777@gmail.com. Fine up to a few hundred
+   contacts (Gmail caps ~500 recipients/day); past that, import the
+   CSV into Mailchimp/ConvertKit and send from there.
+
+Unlock state is per-device (`localStorage: immohrtal.list`). Free tier
+covers 100 submissions/month — upgrade or move to a mailer API if the
+list outgrows it.

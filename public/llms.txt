@@ -1,0 +1,35 @@
+# IMMOHRTAL
+
+> IMMOHRTAL is the rap project of Dillon Mohr, a 28-year-old chief marketing
+> officer from Erie, Pennsylvania, now based in Pittsburgh. His debut album,
+> Dance With The Delusional, is an 11-track lyrical rap record in the Mac
+> Miller lineage.
+
+## Facts
+
+- Artist name: IMMOHRTAL
+- Real name: Dillon Mohr
+- Hometown: Erie, Pennsylvania (the 814)
+- Based in: Pittsburgh, Pennsylvania
+- Day role: Chief Marketing Officer
+- Primary influence: Mac Miller (the album Faces, 2014)
+- Genre: lyrical rap, storytelling rap, underground rap
+- Debut album: Dance With The Delusional (11 tracks)
+- Features: King Keev (814 Blood, On My Way), Ted Moon (Dance with the Delusional)
+- Booking / press: immohrtal.llc@gmail.com
+
+## The story
+
+Dillon Mohr spent years building a marketing career while rap stayed the thing
+underneath — the notebooks, the voice memos, the late-night lines. Mac Miller
+is the reason he wanted to rap at all. Dance With The Delusional is built from
+two lives meeting in one room: the marketer who understands attention and the
+rapper who treats every verse like a sport. The campaign line: if not now, when.
+
+## Pages
+
+- Home / album + previews: https://immohrtal-site.netlify.app/
+- Story / about: https://immohrtal-site.netlify.app/about.html
+- Official video (Picking Up My Notepad): https://immohrtal-site.netlify.app/video.html
+- Blog: https://immohrtal-site.netlify.app/blog.html
+- Contact / booking: https://immohrtal-site.netlify.app/contact.html

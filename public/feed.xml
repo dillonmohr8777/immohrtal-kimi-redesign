@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>IMMOHRTAL Blog</title>
+    <link>https://immohrtal-site.netlify.app/blog.html</link>
+    <description>Field notes from Dance With The Delusional: lyrical rap, Erie to Pittsburgh, the delusion is the point.</description>
+    <language>en-us</language>
+    <item>
+      <title>Who Is IMMOHRTAL</title>
+      <link>https://immohrtal-site.netlify.app/blog/who-is-immohrtal.html</link>
+      <guid isPermaLink="true">https://immohrtal-site.netlify.app/blog/who-is-immohrtal.html</guid>
+      <description>IMMOHRTAL is Dillon Mohr, a 28 year old rapper from Erie, Pennsylvania who lives in Pittsburgh now and works a day job as a Chief Marketing Officer. The debut album is called Dance With The Delusional, eleven tracks recorded in 2023 and remastered, with features from King Keev and Ted Moon. That is the whole thing in two sentences. Everything after this is me telling you the longer version.</description>
+    </item>
+    <item>
+      <title>Rappers Like Mac Miller and Where I Actually Fit</title>
+      <link>https://immohrtal-site.netlify.app/blog/rappers-like-mac-miller.html</link>
+      <guid isPermaLink="true">https://immohrtal-site.netlify.app/blog/rappers-like-mac-miller.html</guid>
+      <description>People search &quot;rappers like Mac Miller&quot; hoping to find that same feeling. The honesty. The jokes that hide something. The craft under the mess. I get it, because I searched for it too. I am IMMOHRTAL, Dillon out of Erie, and Mac is the whole reason I ever picked up a mic.</description>
+    </item>
+    <item>
+      <title>Rappers From Erie PA and Why I Claim The 814</title>
+      <link>https://immohrtal-site.netlify.app/blog/rappers-from-erie-pa.html</link>
+      <guid isPermaLink="true">https://immohrtal-site.netlify.app/blog/rappers-from-erie-pa.html</guid>
+      <description>If you looked up rappers from Erie PA and landed here, imma be straight with you. Erie is not a rap city. Nobody thinks Erie when they think hip hop, and I get why. But I am from there, I write from there, and I put that 814 area code all over my music on purpose. I am IMMOHRTAL, Dillon Mohr, and this is me telling you where I actually come from and why I keep saying it out loud.</description>
+    </item>
+    <item>
+      <title>The Come Up: Why This Music Waited</title>
+      <link>https://immohrtal-site.netlify.app/blog/the-come-up.html</link>
+      <guid isPermaLink="true">https://immohrtal-site.netlify.app/blog/the-come-up.html</guid>
+      <description>I was drawing before I was rapping. I always had a pen in my hand, and I always wanted things to come to life. The music you are hearing now waited years for me to be ready to stand behind it. This is the story of the wait.</description>
+    </item>
+  </channel>
+</rss>

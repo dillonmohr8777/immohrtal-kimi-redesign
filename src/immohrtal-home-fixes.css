@@ -1,0 +1,19 @@
+/* Last-pass home fixes for animated lyric spacing and sticky-nav anchor jumps. */
+#listen,
+#tracks,
+#story {
+  scroll-margin-top: 96px;
+}
+
+.opening-line .ink-word {
+  margin-right: 0.2em;
+}
+
+.opening-line .opening-quote-mark + .ink-word,
+.opening-line .ink-word:first-of-type {
+  margin-left: 0.04em;
+}
+
+.opening-line .ink-word:last-of-type {
+  margin-right: 0.04em;
+}
