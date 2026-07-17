@@ -4,6 +4,10 @@ Kimi redesign preview: this is intentionally isolated from the original IMMOHRTA
 
 Live preview: https://immohrtal-kimi-redesign.netlify.app
 
+Kimi's Pittsburgh concert venue and Blender model specification is in
+`KIMI_BLENDER_CONCERT_BRIEF.md`. This work belongs only to the isolated
+IMMOHRTAL redesign repository.
+
 Official artist site for **IMMOHRTAL**. One page, six sections, and a
 WebGL "spine" you ride down as you scroll — the same engine as the
 Mohr Media site, re-themed to the album world: white paper background,

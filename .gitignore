@@ -4,3 +4,8 @@ dist
 /public/audio/
 .indexnow-key
 .netlify
+*.blend1
+*.blend2
+*.blend@
+/blender/cache/
+/blender/renders/
