@@ -43,7 +43,10 @@ function usePrefersReducedMotion(): boolean {
 
 const BASE = import.meta.env.BASE_URL
 const MODEL_URL = `${BASE}models/immohrtal-pittsburgh-concert.glb`
-const POSTER_URL = `${BASE}models/concert-poster.jpg`
+const POSTER_URL = `${BASE}press/photo-814.jpg`
+const PERFORMANCE_VIDEO_URL = `${BASE}video/picking-up-my-notepad.mp4`
+const ARTIST_PORTRAIT_URL = `${BASE}artist.jpg`
+const LOGO_URL = `${BASE}logo-mark.png`
 
 export function ConcertExperience() {
   const reducedMotion = usePrefersReducedMotion()
@@ -53,10 +56,11 @@ export function ConcertExperience() {
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState('')
   const [activeCamera, setActiveCamera] = useState<ConcertCameraId>('CAM_FOH')
-  const [activeTrack, setActiveTrack] = useState(1)
-  const [playing, setPlaying] = useState(true)
+  const [activeTrack, setActiveTrack] = useState(2)
+  const [playing, setPlaying] = useState(false)
   const [autoAdvance, setAutoAdvance] = useState(true)
   const [audioMode, setAudioMode] = useState<ConcertAudioMode>('synthetic')
+  const [volume, setVolume] = useState(0.82)
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const stageRef = useRef<HTMLDivElement | null>(null)
@@ -93,9 +97,11 @@ export function ConcertExperience() {
       }
       const audio = audioRef.current ?? new ConcertAudio()
       audioRef.current = audio
-      void audio.attach(cue, BASE).then(setAudioMode)
+      audio.setVolume(volume)
+      setAudioMode(audio.attach(cue, BASE))
+      setPlaying(true)
     },
-    [],
+    [volume],
   )
 
   // Auto-advance through the album chapters.
@@ -110,10 +116,17 @@ export function ConcertExperience() {
   }, [status, playing, autoAdvance, activeTrack, activeCue.duration, selectTrack])
 
   const enterVenue = useCallback(() => {
+    const openingCue = concertCues[1]
+    const audio = audioRef.current ?? new ConcertAudio()
+    audioRef.current = audio
+    audio.setVolume(volume)
+    setAudioMode(audio.attach(openingCue, BASE))
+    setActiveTrack(openingCue.track)
+    setPlaying(true)
     setProgress(0)
     setEntered(true)
     setStatus('loading')
-  }, [])
+  }, [volume])
 
   // Boot the engine once React has committed the canvas element.
   useEffect(() => {
@@ -128,15 +141,19 @@ export function ConcertExperience() {
         const scene = new ConcertScene({
           canvas,
           modelUrl: MODEL_URL,
+          performanceVideoUrl: PERFORMANCE_VIDEO_URL,
+          artistPortraitUrl: ARTIST_PORTRAIT_URL,
+          logoUrl: LOGO_URL,
           reducedMotion,
           onProgress: (ratio) => setProgress(Math.round(ratio * 100)),
           onReady: () => {
             if (cancelled) return
             setStatus('ready')
-            scene.setChapter(concertCues[0])
+            scene.setChapter(concertCues[1])
+            scene.setCamera('CAM_Performer_CloseUp')
+            setActiveCamera('CAM_Performer_CloseUp')
             scene.play()
             startLevelPump()
-            selectTrack(1)
           },
           onError: (message) => {
             if (cancelled) return
@@ -162,7 +179,7 @@ export function ConcertExperience() {
     return () => {
       stopLevelPump()
       if (advanceRef.current) clearTimeout(advanceRef.current)
-      audioRef.current?.stop()
+      audioRef.current?.pause()
       sceneRef.current?.dispose()
       sceneRef.current = null
     }
@@ -174,12 +191,12 @@ export function ConcertExperience() {
     if (playing) {
       scene.pause()
       stopLevelPump()
-      audioRef.current?.stop()
+      audioRef.current?.pause()
       setPlaying(false)
     } else {
       scene.play()
       startLevelPump()
-      selectTrack(activeTrack, { moveCamera: false })
+      audioRef.current?.resume()
       setPlaying(true)
     }
   }
@@ -203,13 +220,14 @@ export function ConcertExperience() {
       <div className="concert-stage" ref={stageRef} data-entered={entered || undefined}>
         {!entered && (
           <figure className="concert-poster">
-            <img src={POSTER_URL} alt="Rendered preview of the IMMOHRTAL Pittsburgh concert venue at night" loading="lazy" />
-            <figcaption className="mono-tag">RENDERED IN BLENDER · ARENA DISTRICT, PITTSBURGH PA</figcaption>
+            <img src={POSTER_URL} alt="IMMOHRTAL in the 814 crewneck" loading="lazy" />
+            <img className="concert-poster-logo" src={LOGO_URL} alt="" aria-hidden="true" />
+            <figcaption className="mono-tag">IMMOHRTAL LIVE MODE · PITTSBURGH PA</figcaption>
             {webglOk && (
               <button className="concert-enter" type="button" onClick={() => void enterVenue()}>
                 <span className="concert-enter-ring" aria-hidden="true" />
-                Enter the venue
-                <span className="concert-enter-sub">3D · sound-reactive · 11 chapters</span>
+                Start the show
+                <span className="concert-enter-sub">real audio · live performer · dancing crowd</span>
               </button>
             )}
             {!webglOk && (
@@ -243,13 +261,13 @@ export function ConcertExperience() {
                   <span className="mono-tag">{cueIndex} · {activeCue.chapter}</span>
                   <strong>{activeCue.title}</strong>
                   <span className={`concert-mode ${audioMode === 'audio' ? 'live' : ''}`}>
-                    {audioMode === 'audio' ? 'live audio-reactive' : 'muted timing · synthetic beat'}
+                    {audioMode === 'audio' ? 'live preview · audio-reactive' : 'visual timing · select a lit track'}
                   </span>
                 </div>
 
                 <div className="concert-controls" role="group" aria-label="Venue controls">
                   <button type="button" className="concert-btn" onClick={togglePlay} aria-pressed={playing}>
-                    {playing ? 'Pause' : 'Resume'}
+                    {playing ? 'Pause show' : 'Play show'}
                   </button>
                   <button
                     type="button"
@@ -259,6 +277,21 @@ export function ConcertExperience() {
                   >
                     Auto-advance {autoAdvance ? 'on' : 'off'}
                   </button>
+                  <label className="concert-volume">
+                    <span>Volume</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={volume}
+                      onChange={(event) => {
+                        const next = Number(event.target.value)
+                        setVolume(next)
+                        audioRef.current?.setVolume(next)
+                      }}
+                    />
+                  </label>
                 </div>
 
                 <div className="concert-rail" role="group" aria-label="Camera viewpoints">
@@ -284,6 +317,7 @@ export function ConcertExperience() {
                       key={cue.track}
                       type="button"
                       className="concert-track"
+                      data-audio={cue.previewSrc ? 'ready' : 'timing'}
                       aria-pressed={activeTrack === cue.track}
                       onClick={() => selectTrack(cue.track)}
                       title={`${cue.title} — ${cue.chapter}`}
@@ -304,9 +338,8 @@ export function ConcertExperience() {
       </div>
 
       <p className="concert-footnote">
-        Seven 30-second preview clips drive audio-reactive lighting the moment they are cleared for
-        the public build; until then every chapter runs on muted timing. All eleven cue slots of
-        <em> Dance With The Delusional</em> are wired and waiting.
+        Seven real 30-second previews now drive the lights, performer, and crowd. Lit track dots have
+        audio; the remaining four chapters preserve their visual cue slots for the mastered record.
       </p>
     </section>
   )

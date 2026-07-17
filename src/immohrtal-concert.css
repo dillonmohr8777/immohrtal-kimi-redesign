@@ -77,6 +77,16 @@
   height: 100%;
   object-fit: cover;
   filter: saturate(1.05);
+  object-position: center 28%;
+}
+
+.concert-poster .concert-poster-logo {
+  inset: 28px 28px auto auto;
+  width: clamp(130px, 19vw, 260px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 26px rgba(31, 158, 255, 0.42));
+  z-index: 2;
 }
 
 .concert-poster::after {
@@ -272,6 +282,26 @@
   border-color: rgba(23, 168, 107, 0.6);
 }
 
+.concert-volume {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid rgba(141, 255, 202, 0.42);
+  border-radius: 999px;
+  color: #8dffca;
+  background: rgba(5, 22, 17, 0.7);
+  font: 10px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.concert-volume input {
+  width: 88px;
+  accent-color: #1f9eff;
+}
+
 .concert-controls,
 .concert-rail,
 .concert-tracks {
@@ -339,6 +369,14 @@
   height: 7px;
   border-radius: 50%;
   display: inline-block;
+}
+
+.concert-track[data-audio='ready'] .concert-track-dot {
+  box-shadow: 0 0 0 3px rgba(141, 255, 202, 0.14), 0 0 12px currentColor;
+}
+
+.concert-track[data-audio='timing'] {
+  opacity: 0.58;
 }
 
 .concert-track[aria-pressed='true'] {

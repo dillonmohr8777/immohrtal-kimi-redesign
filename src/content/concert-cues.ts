@@ -33,20 +33,28 @@ export interface ConcertCue {
   previewSrc: string | null
 }
 
-const CLIP = (n: number) => `audio/previews/track-${String(n).padStart(2, '0')}.mp3`
+const CLIPS: Partial<Record<number, string>> = {
+  2: 'audio/previews/02-picking-up-my-notepad.mp3',
+  3: 'audio/previews/03-814-blood.mp3',
+  4: 'audio/previews/04-my-mothers-baby.mp3',
+  5: 'audio/previews/05-roll-the-dice.mp3',
+  6: 'audio/previews/06-my-own-way.mp3',
+  8: 'audio/previews/08-grade-a-love.mp3',
+  9: 'audio/previews/09-on-my-way.mp3',
+}
 
 // Tracks 1–7 have approved 30-second local previews; 8–11 keep reserved
 // slots so the mastered album drops in without a scene or code rebuild.
 export const concertCues: ConcertCue[] = [
-  { track: 1, title: 'No Way Out', chapter: 'Cold Open', primary: '#1f9eff', secondary: '#0d2a4a', energy: 0.35, camera: 'CAM_FOH', bpm: 74, duration: 30, previewSrc: CLIP(1) },
-  { track: 2, title: 'Picking Up My Notepad', chapter: 'Paper', primary: '#f7f9fb', secondary: '#1f9eff', energy: 0.45, camera: 'CAM_Performer_CloseUp', bpm: 86, duration: 30, previewSrc: CLIP(2) },
-  { track: 3, title: '814 Blood (ft. King Keev)', chapter: 'Steel', primary: '#c21f2c', secondary: '#1f4f9e', energy: 0.9, camera: 'CAM_Pit', bpm: 142, duration: 30, previewSrc: CLIP(3) },
-  { track: 4, title: 'My Mothers Baby', chapter: 'Ember', primary: '#f5a63b', secondary: '#7a3b12', energy: 0.4, camera: 'CAM_Stage', bpm: 68, duration: 30, previewSrc: CLIP(4) },
-  { track: 5, title: 'Roll the Dice', chapter: 'Green Room', primary: '#17a86b', secondary: '#0a3a24', energy: 0.8, camera: 'CAM_FOH', bpm: 128, duration: 30, previewSrc: CLIP(5) },
-  { track: 6, title: 'My Own Way', chapter: 'Signal', primary: '#1f9eff', secondary: '#17a86b', energy: 0.75, camera: 'CAM_Pit', bpm: 118, duration: 30, previewSrc: CLIP(6) },
-  { track: 7, title: 'Headstone (Interlude)', chapter: 'Interlude', primary: '#f7f9fb', secondary: '#141922', energy: 0.15, camera: 'CAM_Performer_CloseUp', bpm: 60, duration: 30, previewSrc: CLIP(7) },
-  { track: 8, title: 'Grade A Love', chapter: 'Bloom', primary: '#c86bd8', secondary: '#17a86b', energy: 0.55, camera: 'CAM_Stage', bpm: 96, duration: 30, previewSrc: null },
-  { track: 9, title: 'On My Way (ft. King Keev)', chapter: 'Arrival', primary: '#f2b82e', secondary: '#1f9eff', energy: 0.85, camera: 'CAM_Aerial_Pittsburgh', bpm: 124, duration: 30, previewSrc: null },
+  { track: 1, title: 'No Way Out', chapter: 'Cold Open', primary: '#1f9eff', secondary: '#0d2a4a', energy: 0.35, camera: 'CAM_FOH', bpm: 74, duration: 30, previewSrc: null },
+  { track: 2, title: 'Picking Up My Notepad', chapter: 'Paper', primary: '#f7f9fb', secondary: '#1f9eff', energy: 0.62, camera: 'CAM_Performer_CloseUp', bpm: 86, duration: 30, previewSrc: CLIPS[2]! },
+  { track: 3, title: '814 Blood (ft. King Keev)', chapter: 'Steel', primary: '#c21f2c', secondary: '#1f4f9e', energy: 0.95, camera: 'CAM_Pit', bpm: 142, duration: 30, previewSrc: CLIPS[3]! },
+  { track: 4, title: 'My Mothers Baby', chapter: 'Ember', primary: '#f5a63b', secondary: '#7a3b12', energy: 0.5, camera: 'CAM_Stage', bpm: 68, duration: 30, previewSrc: CLIPS[4]! },
+  { track: 5, title: 'Roll the Dice', chapter: 'Green Room', primary: '#17a86b', secondary: '#0a3a24', energy: 0.88, camera: 'CAM_FOH', bpm: 128, duration: 30, previewSrc: CLIPS[5]! },
+  { track: 6, title: 'My Own Way', chapter: 'Signal', primary: '#1f9eff', secondary: '#17a86b', energy: 0.82, camera: 'CAM_Pit', bpm: 118, duration: 30, previewSrc: CLIPS[6]! },
+  { track: 7, title: 'Headstone (Interlude)', chapter: 'Interlude', primary: '#f7f9fb', secondary: '#141922', energy: 0.15, camera: 'CAM_Performer_CloseUp', bpm: 60, duration: 30, previewSrc: null },
+  { track: 8, title: 'Grade A Love', chapter: 'Bloom', primary: '#c86bd8', secondary: '#17a86b', energy: 0.68, camera: 'CAM_Stage', bpm: 96, duration: 30, previewSrc: CLIPS[8]! },
+  { track: 9, title: 'On My Way (ft. King Keev)', chapter: 'Arrival', primary: '#f2b82e', secondary: '#1f9eff', energy: 0.92, camera: 'CAM_Aerial_Pittsburgh', bpm: 124, duration: 30, previewSrc: CLIPS[9]! },
   { track: 10, title: 'Waitlist', chapter: 'Holding Pattern', primary: '#2fd4c4', secondary: '#0d2a4a', energy: 0.6, camera: 'CAM_FOH', bpm: 104, duration: 30, previewSrc: null },
   { track: 11, title: 'Dance with the Delusional (ft. Ted Moon)', chapter: 'Finale', primary: '#c21f2c', secondary: '#1f9eff', energy: 1.0, camera: 'CAM_Finale', bpm: 136, duration: 30, previewSrc: null },
 ]

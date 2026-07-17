@@ -342,10 +342,10 @@ def build_venue_ext(mats, coll):
     cube("MARQUEE_slab", (x, y + 46.2, 17), (26, 1.2, 6.4), mats["gunmetal"], coll, bevel=0.4)
     # Text stands upright facing +Y (the arrival approach).
     text_mesh("MARQUEE_text", "IMMOHRTAL", (x, y + 46.9, 17.6), 3.2, mats["signal_emit"], coll,
-              rotation=(math.radians(-90), 0, 0), extrude=0.12)
+              rotation=(math.radians(-90), math.radians(180), 0), extrude=0.12)
     cube("MARQUEE_rule", (x, y + 46.9, 14.6), (20, 0.3, 0.5), mats["bridge_gold"], coll)
     text_mesh("MARQUEE_sub", "DANCE WITH THE DELUSIONAL  ·  PITTSBURGH PA", (x, y + 46.9, 13.4), 0.85,
-              mats["paper_emit"], coll, rotation=(math.radians(-90), 0, 0), extrude=0.05)
+              mats["paper_emit"], coll, rotation=(math.radians(-90), math.radians(180), 0), extrude=0.05)
 
     # Banners down the plaza (signal / green alternating).
     for i in range(6):
@@ -537,14 +537,49 @@ def build_lighting(mats, coll, chapter_colls):
 # --------------------------------------------------------------------------
 
 
-def make_person_proto(name, shirt_mat, skin_mat, coll):
-    """One low-poly crowd figure: torso + head (+ raised phone variant handled by caller)."""
-    torso = cube(f"{name}_torso", (0, 0, 1.05), (0.62, 0.4, 1.15), shirt_mat, coll, bevel=0.16)
-    head = uv_sphere(f"{name}_head", (0, 0, 1.86), 0.24, skin_mat, coll, segments=10, rings=8)
-    # join into one mesh for cheaper instancing
+def make_person_proto(name, shirt_mat, skin_mat, pants_mat, hair_mat, pose, coll):
+    """A recognizable low-poly person with legs, torso, head, hair and posed arms."""
+    parts = []
+    for side in (-1, 1):
+        parts.append(cyl(f"{name}_leg_{side}", (side * 0.18, 0, 0.48), 0.12, 0.9,
+                         pants_mat, coll, vertices=7))
+        parts.append(cube(f"{name}_shoe_{side}", (side * 0.18, 0.09, 0.08),
+                          (0.24, 0.42, 0.16), mats_ref["gunmetal_dark"], coll, bevel=0.04))
+
+    torso = cube(f"{name}_torso", (0, 0, 1.24), (0.72, 0.42, 1.02), shirt_mat, coll, bevel=0.13)
+    parts.append(torso)
+    parts.append(cyl(f"{name}_neck", (0, 0, 1.83), 0.10, 0.18, skin_mat, coll, vertices=7))
+    parts.append(uv_sphere(f"{name}_head", (0, 0, 2.08), 0.25, skin_mat, coll,
+                           segments=10, rings=7, scale=(0.92, 0.88, 1.06)))
+    parts.append(uv_sphere(f"{name}_hair", (0, -0.015, 2.23), 0.24, hair_mat, coll,
+                           segments=8, rings=5, scale=(0.94, 0.9, 0.55)))
+
+    # Six concert poses: hands up, one arm up, clapping, phone-front, and sways.
+    pose_table = [
+        ((-18, 18), (1.20, 1.20)),
+        ((-48, 12), (1.53, 1.18)),
+        ((-12, 48), (1.18, 1.53)),
+        ((-42, 42), (1.48, 1.48)),
+        ((-64, 64), (1.62, 1.62)),
+        ((-28, 58), (1.34, 1.58)),
+    ]
+    arm_angles, arm_heights = pose_table[pose % len(pose_table)]
+    for idx, side in enumerate((-1, 1)):
+        angle = math.radians(arm_angles[idx])
+        height = arm_heights[idx]
+        arm = cyl(f"{name}_arm_{side}", (side * 0.47, 0.02, height), 0.095, 0.92,
+                  shirt_mat, coll, vertices=7)
+        arm.rotation_euler[1] = angle * side
+        parts.append(arm)
+        hand = uv_sphere(f"{name}_hand_{side}",
+                         (side * (0.47 + abs(math.sin(angle)) * 0.34), 0.02,
+                          height + math.cos(angle) * 0.44),
+                         0.105, skin_mat, coll, segments=7, rings=5)
+        parts.append(hand)
+
     bpy.ops.object.select_all(action="DESELECT")
-    torso.select_set(True)
-    head.select_set(True)
+    for part in parts:
+        part.select_set(True)
     bpy.context.view_layer.objects.active = torso
     bpy.ops.object.join()
     torso.name = name
@@ -552,15 +587,23 @@ def make_person_proto(name, shirt_mat, skin_mat, coll):
 
 
 def build_crowd(mats, coll):
+    global mats_ref
+    mats_ref = mats
     x, y = ARENA_X, ARENA_Y
-    shirts = [mats["crowd_a"], mats["crowd_b"], mats["crowd_c"], mats["crowd_d"], mats["crowd_e"]]
+    shirts = [mats["crowd_a"], mats["crowd_b"], mats["crowd_c"], mats["crowd_d"], mats["crowd_e"],
+              mats["crowd_f"], mats["crowd_g"], mats["crowd_h"]]
     skins = [mats["skin_a"], mats["skin_b"], mats["skin_c"]]
+    pants = [mats["denim"], mats["crowd_pants_a"], mats["crowd_pants_b"]]
+    hairs = [mats["hair"], mats["crowd_hair_b"], mats["crowd_hair_c"]]
     # prototype row parked far below the venue; GLB instances share meshes
     protos = []
-    for i, shirt in enumerate(shirts):
-        proto = make_person_proto(f"PERSON_proto_{i}", shirt, skins[i % len(skins)], coll)
+    for i in range(18):
+        proto = make_person_proto(f"PERSON_proto_{i}", shirts[i % len(shirts)],
+                                  skins[(i * 5) % len(skins)], pants[(i * 7) % len(pants)],
+                                  hairs[(i * 11) % len(hairs)], i % 6, coll)
         proto.location = (0, -200 - i * 2, -30)
         proto.hide_render = True
+        proto["pose"] = i % 6
         protos.append(proto)
 
     members = []
@@ -583,6 +626,7 @@ def build_crowd(mats, coll):
         coll.objects.link(inst)
         inst["phase"] = round(random.uniform(0, math.tau), 3)
         inst["cluster"] = "floor"
+        inst["pose"] = i % 6
         members.append(inst)
 
     # Bowl: mirrored over the tier blocks' radius bands (north arc).
@@ -603,6 +647,7 @@ def build_crowd(mats, coll):
         coll.objects.link(inst)
         inst["phase"] = round(random.uniform(0, math.tau), 3)
         inst["cluster"] = f"tier{tier}"
+        inst["pose"] = (i * 7) % 6
         members.append(inst)
 
     # Phone lights: ~12% of the floor crowd holds an emissive quad.
@@ -656,6 +701,7 @@ def build_performer(mats, coll):
     for side in (-1, 1):
         g.append(uv_sphere(f"PERF_ear_{side}", (x + side * 0.47, py - 0.02, base + 4.5), 0.11, mats["skin"], coll, segments=8, rings=6, scale=(0.5, 0.7, 0.9)))
     g.append(uv_sphere("PERF_nose", (x, py + 0.44, base + 4.42), 0.09, mats["skin"], coll, segments=8, rings=6, scale=(0.8, 1.2, 1.0)))
+    g.append(cube("PERF_mouth", (x, py + 0.48, base + 4.25), (0.24, 0.055, 0.07), mats["album_red"], coll, bevel=0.025))
     # strong eyebrows (signature from the approved portraits)
     for side in (-1, 1):
         brow = cube(f"PERF_brow_{side}", (x + side * 0.19, py + 0.4, base + 4.68), (0.3, 0.08, 0.07), mats["hair"], coll, bevel=0.03)
@@ -789,6 +835,13 @@ def build_materials():
     m["crowd_c"] = mat_principled("MAT_CrowdC", (0.12, 0.20, 0.28, 1), roughness=0.9)
     m["crowd_d"] = mat_principled("MAT_CrowdD", (0.22, 0.14, 0.12, 1), roughness=0.9)
     m["crowd_e"] = mat_principled("MAT_CrowdE", (0.09, 0.16, 0.12, 1), roughness=0.9)
+    m["crowd_f"] = mat_principled("MAT_CrowdF", (0.48, 0.10, 0.13, 1), roughness=0.86)
+    m["crowd_g"] = mat_principled("MAT_CrowdG", (0.78, 0.48, 0.08, 1), roughness=0.86)
+    m["crowd_h"] = mat_principled("MAT_CrowdH", (0.34, 0.12, 0.48, 1), roughness=0.86)
+    m["crowd_pants_a"] = mat_principled("MAT_CrowdPantsA", (0.16, 0.17, 0.20, 1), roughness=0.9)
+    m["crowd_pants_b"] = mat_principled("MAT_CrowdPantsB", (0.16, 0.12, 0.08, 1), roughness=0.9)
+    m["crowd_hair_b"] = mat_principled("MAT_CrowdHairB", (0.10, 0.055, 0.025, 1), roughness=0.68)
+    m["crowd_hair_c"] = mat_principled("MAT_CrowdHairC", (0.34, 0.20, 0.08, 1), roughness=0.68)
     m["skin_a"] = mat_principled("MAT_SkinA", (0.78, 0.60, 0.48, 1), roughness=0.6)
     m["skin_b"] = mat_principled("MAT_SkinB", (0.55, 0.38, 0.28, 1), roughness=0.6)
     m["skin_c"] = mat_principled("MAT_SkinC", (0.90, 0.72, 0.58, 1), roughness=0.6)

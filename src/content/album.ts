@@ -37,18 +37,18 @@ export interface Track {
   duration?: string
 }
 
-// Audio is intentionally omitted from this public Kimi redesign preview. Add
-// approved release-day previews here only when the artist clears them.
+// Artist-approved 30-second previews. Tracks without a cleared clip remain
+// visible in the album sequence but intentionally do not expose audio.
 export const tracks: Track[] = [
   { title: 'No Way Out', src: null },
-  { title: 'Picking Up My Notepad', src: null },
-  { title: '814 Blood (ft. King Keev)', src: null },
-  { title: 'My Mothers Baby', src: null },
-  { title: 'Roll the Dice', src: null },
-  { title: 'My Own Way', src: null },
+  { title: 'Picking Up My Notepad', src: '/audio/previews/02-picking-up-my-notepad.mp3', duration: '0:30' },
+  { title: '814 Blood (ft. King Keev)', src: '/audio/previews/03-814-blood.mp3', duration: '0:30' },
+  { title: 'My Mothers Baby', src: '/audio/previews/04-my-mothers-baby.mp3', duration: '0:30' },
+  { title: 'Roll the Dice', src: '/audio/previews/05-roll-the-dice.mp3', duration: '0:30' },
+  { title: 'My Own Way', src: '/audio/previews/06-my-own-way.mp3', duration: '0:30' },
   { title: 'Headstone (Interlude)', src: null },
-  { title: 'Grade A Love', src: null },
-  { title: 'On My Way (ft. King Keev)', src: null },
+  { title: 'Grade A Love', src: '/audio/previews/08-grade-a-love.mp3', duration: '0:30' },
+  { title: 'On My Way (ft. King Keev)', src: '/audio/previews/09-on-my-way.mp3', duration: '0:30' },
   { title: 'Waitlist', src: null },
   { title: 'Dance with the Delusional (ft. Ted Moon)', src: null },
 ]
