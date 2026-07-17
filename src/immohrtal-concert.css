@@ -1,0 +1,398 @@
+/* ────────────────────────────────────────────────────────────
+   THE VENUE — concert experience section
+   ──────────────────────────────────────────────────────────── */
+
+.concert-section {
+  position: relative;
+  padding: clamp(72px, 10vw, 128px) clamp(20px, 5vw, 64px);
+  background: linear-gradient(180deg, var(--paper) 0%, #0b101c 12%, #060a14 88%, var(--paper) 100%);
+  color: #f2f6fc;
+}
+
+.concert-head {
+  max-width: 820px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.concert-head .mono-tag {
+  color: rgba(31, 158, 255, 0.75);
+}
+
+.concert-head h2 {
+  font-size: clamp(40px, 6.5vw, 84px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 14px 0 18px;
+  color: #f7f9fb;
+}
+
+.concert-head .chrome-text {
+  background: var(--chrome-light);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.concert-lede {
+  color: rgba(226, 236, 248, 0.78);
+  font-size: clamp(15px, 1.6vw, 17.5px);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.concert-lede em,
+.concert-footnote em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* ── stage frame ── */
+
+.concert-stage {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #050a16;
+  border: 1px solid rgba(31, 158, 255, 0.22);
+  box-shadow: 0 40px 90px rgba(3, 7, 17, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.concert-poster {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.concert-poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05);
+}
+
+.concert-poster::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(3, 7, 17, 0.55) 100%);
+}
+
+.concert-poster figcaption {
+  position: absolute;
+  left: 20px;
+  bottom: 16px;
+  color: rgba(226, 236, 248, 0.62);
+  z-index: 2;
+}
+
+.concert-enter {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: 26px 44px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #1f9eff, #0d6bcc);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.6vw, 30px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 18px 50px rgba(31, 158, 255, 0.4);
+  transition: transform 0.25s var(--ease-hover), box-shadow 0.25s var(--ease-hover);
+}
+
+.concert-enter:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 26px 70px rgba(31, 158, 255, 0.55);
+}
+
+.concert-enter:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.concert-enter-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.concert-enter-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  animation: concert-pulse 2.6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes concert-pulse {
+  0% { transform: scale(0.98); opacity: 0.9; }
+  70% { transform: scale(1.12); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ── canvas + states ── */
+
+.concert-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: pan-y;
+}
+
+.concert-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 14px;
+  text-align: center;
+  background: radial-gradient(ellipse at center, #0a1220, #050a16);
+  z-index: 3;
+}
+
+.concert-loading .mono-tag {
+  color: rgba(31, 158, 255, 0.8);
+}
+
+.concert-progress {
+  width: min(320px, 60vw);
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(31, 158, 255, 0.18);
+  overflow: hidden;
+}
+
+.concert-progress span {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #0d6bcc, #1f9eff);
+  transition: width 0.25s ease;
+}
+
+.concert-loading-pct {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(226, 236, 248, 0.7);
+}
+
+.concert-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #050a16;
+}
+
+.concert-fallback img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.concert-fallback p {
+  position: relative;
+  max-width: 420px;
+  padding: 18px 22px;
+  border-radius: 12px;
+  background: rgba(5, 10, 22, 0.82);
+  color: #e2ecf8;
+  font-size: 14.5px;
+}
+
+/* ── HUD ── */
+
+.concert-hud {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 4;
+  display: grid;
+  gap: 10px;
+  padding: 16px clamp(14px, 3vw, 28px) 14px;
+  background: linear-gradient(180deg, transparent, rgba(3, 7, 17, 0.88) 34%);
+}
+
+.concert-nowplaying {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.concert-nowplaying .mono-tag {
+  color: rgba(31, 158, 255, 0.85);
+}
+
+.concert-nowplaying strong {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.4vw, 26px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f7f9fb;
+}
+
+.concert-mode {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(226, 236, 248, 0.6);
+  border: 1px solid rgba(226, 236, 248, 0.22);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+.concert-mode.live {
+  color: #8dffca;
+  border-color: rgba(23, 168, 107, 0.6);
+}
+
+.concert-controls,
+.concert-rail,
+.concert-tracks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.concert-btn,
+.concert-chip,
+.concert-track {
+  border: 1px solid rgba(226, 236, 248, 0.24);
+  background: rgba(10, 18, 32, 0.72);
+  color: #e2ecf8;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  min-height: 40px;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.concert-btn:hover,
+.concert-chip:hover,
+.concert-track:hover {
+  border-color: rgba(31, 158, 255, 0.8);
+}
+
+.concert-btn:focus-visible,
+.concert-chip:focus-visible,
+.concert-track:focus-visible,
+.concert-enter:focus-visible {
+  outline: 2px solid #1f9eff;
+  outline-offset: 3px;
+}
+
+.concert-btn[aria-pressed='true'],
+.concert-chip[aria-pressed='true'] {
+  background: #1f9eff;
+  border-color: #1f9eff;
+  color: #04121f;
+  font-weight: 700;
+}
+
+.concert-tracks {
+  gap: 6px;
+}
+
+.concert-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+}
+
+.concert-track-num {
+  font-size: 10.5px;
+}
+
+.concert-track-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.concert-track[aria-pressed='true'] {
+  background: rgba(31, 158, 255, 0.2);
+  border-color: #1f9eff;
+  color: #fff;
+}
+
+.concert-note {
+  font-size: 13px;
+  color: rgba(226, 236, 248, 0.72);
+  max-width: 520px;
+  position: relative;
+  z-index: 2;
+  background: rgba(5, 10, 22, 0.78);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.concert-footnote {
+  max-width: 720px;
+  margin: 26px auto 0;
+  text-align: center;
+  font-size: 13.5px;
+  color: rgba(226, 236, 248, 0.6);
+}
+
+@media (max-width: 760px) {
+  .concert-stage {
+    aspect-ratio: 4 / 5;
+    border-radius: 16px;
+  }
+
+  .concert-hud {
+    gap: 8px;
+  }
+
+  .concert-mode {
+    margin-left: 0;
+  }
+
+  .concert-chip,
+  .concert-btn {
+    padding: 8px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concert-enter-ring {
+    animation: none;
+    opacity: 0.4;
+  }
+
+  .concert-progress span {
+    transition: none;
+  }
+}

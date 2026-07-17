@@ -11,6 +11,7 @@ import { SpineRail } from './components/SpineRail'
 import { Loader } from './components/Loader'
 import { Listen } from './components/Listen'
 import { Tracklist } from './components/Tracklist'
+import { ConcertExperience } from './concert/ConcertExperience'
 import { PlayerBar } from './components/PlayerBar'
 import { Story } from './components/Story'
 import { Contact, Footer } from './components/Contact'
@@ -36,6 +37,7 @@ export default function App() {
           <MarqueeDivider />
           <Listen />
           <Tracklist />
+          <ConcertExperience />
           <Story />
           <Contact />
           <LogoOutro />

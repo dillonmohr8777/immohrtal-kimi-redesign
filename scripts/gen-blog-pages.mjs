@@ -2,7 +2,7 @@
  * Generates a static permalink page for every blog post plus the
  * sitemap. Runs automatically before `vite build` (npm prebuild).
  *
- *   node --experimental-strip-types scripts/gen-blog-pages.mjs
+ *   node --loader ./scripts/strip-ts-loader.mjs scripts/gen-blog-pages.mjs
  *
  * Each post in src/content/blog.ts becomes blog/<slug>.html: an MPA
  * entry with its own title, meta description, canonical URL, and
