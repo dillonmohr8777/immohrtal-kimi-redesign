@@ -11,3 +11,5 @@ For future edits:
 5. Return the live preview link: `https://immohrtal-kimi-redesign.netlify.app`.
 
 Use repository-scoped GitHub integration access only. Never request or paste a personal access token into chat.
+
+Automatic preview deployment is connected to pushes on `main`.
