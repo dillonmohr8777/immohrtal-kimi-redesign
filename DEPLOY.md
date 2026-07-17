@@ -1,22 +1,17 @@
 # Hosting
 
-The site can now be SERVED from anywhere (Vercel, Netlify, a custom
-domain): email capture posts to the Netlify form backend by absolute
-URL from any host (`src/lib/list.ts`).
+This isolated Kimi redesign has its own Netlify project and form backend.
+It must remain separate from the original IMMOHRTAL site and repository.
 
-⚠ **RULE: never delete the Netlify site** (immohrtal-site.netlify.app).
-Even if Vercel serves the primary site, Netlify remains the form
-backend, the contact store, and the Gmail notification source.
+⚠ **RULE: do not repoint this preview at the original IMMOHRTAL site.**
+The Kimi redesign owns its own preview, forms, and deployment pipeline.
 
 ## Deploy on Vercel (one time)
 
-1. vercel.com → **Add New → Project** → import `dillonmohr8777/dillon-os`.
-2. **Root Directory**: `immohrtal-site`. Framework preset: **Vite**
+1. vercel.com → **Add New → Project** → import `dillonmohr8777/immohrtal-kimi-redesign`.
+2. **Root Directory**: `/`. Framework preset: **Vite**
    (build `npm run build`, output `dist`, auto-detected).
-3. Deploy. Every merge to `main` then redeploys automatically.
-4. Leave the Netlify site running (see rule above). Canonical URLs stay
-   on immohrtal-site.netlify.app until the custom domain lands, so the
-   two copies don't compete in search.
+3. Deploy. Every push to `main` then redeploys automatically.
 
 ## Fastest path (no git wiring): Netlify Drop
 
@@ -26,12 +21,9 @@ backend, the contact store, and the Gmail notification source.
 
 ## Proper path (auto-deploys on merge)
 
-1. Merge PR #158 into `main`.
-2. Netlify → **Add new site → Import an existing project** →
-   `dillonmohr8777/dillon-os`.
-3. Base directory `immohrtal-site`, build `npm run build`, publish
-   `immohrtal-site/dist`.
-4. Deploy. Every future merge to `main` redeploys automatically.
+1. Use the existing Netlify project `immohrtal-kimi-redesign`.
+2. Build with `npm run build` and publish `dist`.
+3. Pushes to `main` redeploy this isolated preview automatically.
 
 ## Custom domain (whenever you buy one)
 

@@ -10,9 +10,9 @@
  * The response is opaque there, so we optimistically treat it as
  * delivered; Netlify still records it and fires the Gmail notification.
  *
- * RULE: do not delete the Netlify site while this is the backend.
+ * This isolated redesign owns its own Netlify form backend.
  */
-const FORM_BACKEND = 'https://immohrtal-site.netlify.app'
+const FORM_BACKEND = 'https://immohrtal-kimi-redesign.netlify.app'
 
 export async function submitToList(fields: Record<string, string>): Promise<void> {
   const body = new URLSearchParams({ 'form-name': 'immohrtal-list', ...fields }).toString()

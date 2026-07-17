@@ -14,7 +14,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const ORIGIN = 'https://immohrtal-site.netlify.app'
+const ORIGIN = 'https://immohrtal-kimi-redesign.netlify.app'
 
 const { posts } = await import('../src/content/blog.ts')
 

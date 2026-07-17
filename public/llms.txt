@@ -28,8 +28,8 @@ rapper who treats every verse like a sport. The campaign line: if not now, when.
 
 ## Pages
 
-- Home / album + previews: https://immohrtal-site.netlify.app/
-- Story / about: https://immohrtal-site.netlify.app/about.html
-- Official video (Picking Up My Notepad): https://immohrtal-site.netlify.app/video.html
-- Blog: https://immohrtal-site.netlify.app/blog.html
-- Contact / booking: https://immohrtal-site.netlify.app/contact.html
+- Home / album + previews: https://immohrtal-kimi-redesign.netlify.app/
+- Story / about: https://immohrtal-kimi-redesign.netlify.app/about.html
+- Official video (Picking Up My Notepad): https://immohrtal-kimi-redesign.netlify.app/video.html
+- Blog: https://immohrtal-kimi-redesign.netlify.app/blog.html
+- Contact / booking: https://immohrtal-kimi-redesign.netlify.app/contact.html

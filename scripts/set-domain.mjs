@@ -10,8 +10,7 @@
  * origin. Commit and push to deploy.
  *
  * NOTE: src/lib/list.ts (FORM_BACKEND) is intentionally NOT rewritten:
- * form capture keeps posting to the immohrtal-site.netlify.app backend,
- * which continues to work from the custom domain.
+ * form capture remains isolated to this redesign's Netlify backend.
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
@@ -24,7 +23,7 @@ if (!domain || !/^[a-z0-9.-]+\.[a-z]{2,}$/.test(domain)) {
   process.exit(1)
 }
 const NEW = `https://${domain}`
-const OLD = 'https://immohrtal-site.netlify.app'
+const OLD = 'https://immohrtal-kimi-redesign.netlify.app'
 
 const FILES = [
   'index.html',
